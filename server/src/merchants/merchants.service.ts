@@ -14,7 +14,7 @@ export class MerchantsService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} merchant`;
+    return merchants.find((merchant) => merchant.id === id);
   }
 
   update(id: number, updateMerchantDto: UpdateMerchantDto) {
