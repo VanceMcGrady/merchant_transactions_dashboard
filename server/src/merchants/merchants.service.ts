@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMerchantDto } from './dto/create-merchant.dto';
 import { UpdateMerchantDto } from './dto/update-merchant.dto';
+import { merchants } from './merchants.data';
 
 @Injectable()
 export class MerchantsService {
@@ -9,7 +10,7 @@ export class MerchantsService {
   }
 
   findAll() {
-    return `This action returns all merchants`;
+    return merchants;
   }
 
   findOne(id: number) {
