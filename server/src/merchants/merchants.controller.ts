@@ -22,6 +22,11 @@ export class MerchantsController {
     return this.merchantsService.findOne(+id);
   }
 
+  @Get('email/:email')
+  findOneByEmail(@Param('email') email: string) {
+    return this.merchantsService.findAll().find((merchant) => merchant.email === email);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateMerchantDto: UpdateMerchantDto) {
     return this.merchantsService.update(+id, updateMerchantDto);

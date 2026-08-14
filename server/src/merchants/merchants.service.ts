@@ -6,7 +6,7 @@ import { merchants } from './merchants.data';
 @Injectable()
 export class MerchantsService {
   create(createMerchantDto: CreateMerchantDto) {
-    return 'This action adds a new merchant';
+    
   }
 
   findAll() {
