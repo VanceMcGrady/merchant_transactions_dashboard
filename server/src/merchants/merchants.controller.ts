@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { MerchantsService } from './merchants.service';
 import { CreateMerchantDto } from './dto/create-merchant.dto';
 import { UpdateMerchantDto } from './dto/update-merchant.dto';
+import { ValidateUpdateMerchantPipe } from './pipes/update-merchant.pipe';
 
 @Controller('merchants')
 export class MerchantsController {
@@ -18,7 +19,7 @@ export class MerchantsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id: string) {
     return this.merchantsService.findOne(+id);
   }
 
@@ -28,7 +29,8 @@ export class MerchantsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMerchantDto: UpdateMerchantDto) {
+  update(@Param('id') id: string, @Body(ValidateUpdateMerchantPipe) updateMerchantDto: UpdateMerchantDto) {
+  
     return this.merchantsService.update(+id, updateMerchantDto);
   }
 
