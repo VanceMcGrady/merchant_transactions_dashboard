@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMerchantDto } from './dto/create-merchant.dto';
 import { UpdateMerchantDto } from './dto/update-merchant.dto';
 import { merchants } from './merchants.data';
@@ -18,7 +18,12 @@ export class MerchantsService {
   }
 
   update(id: number, updateMerchantDto: UpdateMerchantDto) {
-    return `This action updates a #${id} merchant`;
+    const merchant = merchants.find((merchant) => merchant.id === id);
+    if (!merchant) {
+      throw new NotFoundException(`Merchant #${id} not found`);
+    }
+    Object.assign(merchant, updateMerchantDto);
+    return merchant;
   }
 
   remove(id: number) {

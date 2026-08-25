@@ -11,4 +11,8 @@ export class MerchantsService {
     getMerchants(){
         return this.http.get<Merchant[]>(`${environment.apiUrl}/merchants`)
     }
+
+    updateMerchant(merchantId: number, merchantData: Partial<Omit<Merchant, 'id'>>){
+        return this.http.patch<Merchant>(`${environment.apiUrl}/merchants/${merchantId}`, merchantData)
+    }
 }

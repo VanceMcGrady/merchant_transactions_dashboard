@@ -9,9 +9,25 @@
     <ul class="merchant-list">
       @for (merchant of merchants.value(); track merchant.id) {
         <li>
-          <strong>{{ merchant.name }}</strong>
-          <span>{{ merchant.category }}</span>
-          <span>{{ merchant.city }}, {{ merchant.state }}</span>
+          @if (editingMerchantId() === merchant.id) {
+            <input [(ngModel)]="editForm.name" placeholder="Name" />
+            <input [(ngModel)]="editForm.category" placeholder="Category" />
+            <input [(ngModel)]="editForm.city" placeholder="City" />
+            <input [(ngModel)]="editForm.state" placeholder="State" />
+            <input [(ngModel)]="editForm.email" placeholder="Email" />
+            <div class="actions">
+              <button (click)="saveEdit(merchant.id)">Save</button>
+              <button (click)="cancelEdit()">Cancel</button>
+            </div>
+          } @else {
+            <strong>{{ merchant.name }}</strong>
+            <span>{{ merchant.category }}</span>
+            <span>{{ merchant.city }}, {{ merchant.state }}</span>
+            <div class="actions">
+              <button (click)="startEdit(merchant)">Update</button>
+              <button>Remove</button>
+            </div>
+          }
         </li>
       }
     </ul>

@@ -49,4 +49,32 @@ describe('Dashboard', () => {
       'Blue Bottle Coffee',
     );
   });
+
+  it('should patch the merchant and reload the list on save', async () => {
+    const merchant = { id: 1, name: 'Blue Bottle Coffee', category: 'Food & Beverage', city: 'Oakland', state: 'CA', email: 'a@b.com', createdAt: '2023-01-15T00:00:00.000Z' };
+    httpMock.expectOne(`${environment.apiUrl}/merchants`).flush([merchant]);
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    component.startEdit(merchant);
+    component.editForm.name = 'Blue Bottle Coffee Co.';
+    component.saveEdit(merchant.id);
+
+    const patchReq = httpMock.expectOne(`${environment.apiUrl}/merchants/${merchant.id}`);
+    expect(patchReq.request.method).toBe('PATCH');
+    expect(patchReq.request.body.name).toBe('Blue Bottle Coffee Co.');
+    expect(patchReq.request.body.id).toBeUndefined();
+    patchReq.flush({ ...merchant, name: 'Blue Bottle Coffee Co.' });
+    fixture.detectChanges();
+
+    httpMock.expectOne(`${environment.apiUrl}/merchants`).flush([{ ...merchant, name: 'Blue Bottle Coffee Co.' }]);
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(component.editingMerchantId()).toBeNull();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('.merchant-list li strong')?.textContent).toContain(
+      'Blue Bottle Coffee Co.',
+    );
+  });
 });
