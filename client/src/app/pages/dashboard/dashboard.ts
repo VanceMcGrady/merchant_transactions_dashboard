@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { MerchantsService } from '../../services/merchants-service';
 
 @Component({
   imports: [],
@@ -6,4 +8,10 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard.scss',
   templateUrl: './dashboard.html',
 })
-export class Dashboard {}
+export class Dashboard {
+  private merchantsService = inject(MerchantsService);
+
+  merchants = rxResource({
+    stream: () => this.merchantsService.getMerchants(),
+  });
+}

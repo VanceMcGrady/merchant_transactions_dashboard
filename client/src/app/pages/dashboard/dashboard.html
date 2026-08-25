@@ -1,4 +1,19 @@
-<main class="home">
+<main class="dashboard">
   <h1>Merchant Transactions Dashboard</h1>
-  <p>Angular frontend is up and running.</p>
+
+  @if (merchants.isLoading()) {
+    <p>Loading merchants…</p>
+  } @else if (merchants.error()) {
+    <p class="error">Failed to load merchants.</p>
+  } @else {
+    <ul class="merchant-list">
+      @for (merchant of merchants.value(); track merchant.id) {
+        <li>
+          <strong>{{ merchant.name }}</strong>
+          <span>{{ merchant.category }}</span>
+          <span>{{ merchant.city }}, {{ merchant.state }}</span>
+        </li>
+      }
+    </ul>
+  }
 </main>
